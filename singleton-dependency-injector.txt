@@ -1,0 +1,34 @@
+A singleton is a design pattern that allows you to have only one instance of a certain object in your program. This can be useful in situations where you want to make sure that only one object of a certain type exists, such as when you are using a database connection or logging utility.
+
+In Python, you can create a singleton by using the __new__ method. This method allows you to control how an object is created, and you can use it to check if an instance of the object already exists. If an instance exists, you can return that instance instead of creating a new one. Here is an example of a singleton class in Python:
+
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if not cls._instance:
+            cls._instance = super(Singleton, cls).__new__(cls)
+        return cls._instance
+
+
+In the code above, the __new__ method checks if an instance of the Singleton class already exists. If it does, it returns that instance. If it doesn't, it creates a new instance and then returns it.
+
+Singletons can be used in dependency injection by creating a single instance of a certain object and then providing that instance to any other object that depends on it. This can help to make your code more modular and easier to test, because you can swap out the dependencies without having to change the code that uses them. Here is an example of how you might use a singleton in dependency injection:
+
+
+class Database:
+    def __init__(self):
+        self.connection = ...
+
+class UserService:
+    def __init__(self, database):
+        self.database = database
+
+# Create a single instance of the Database class
+database = Singleton(Database)
+
+# Provide the single instance of the Database class as a dependency
+user_service = UserService(database)
+
+
+In the code above, we create a single instance of the Database class using the Singleton class. Then, we provide that instance as a dependency to the UserService class. This allows us to use the same Database instance in multiple parts of our code, without having to create multiple instances of it.
